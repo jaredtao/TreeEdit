@@ -1,10 +1,13 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
+import "./BasicComponent"
 Item {
     id: root
     property alias model: listView.model
     property int basePadding: 4
     property int subPadding: 16
+    clip: true
+
     ListView {
         id: listView
         anchors.fill: parent
@@ -12,19 +15,26 @@ Item {
         delegate: Rectangle {
             width: listView.width
             color: (listView.currentIndex === index || hoverHander.hovered) ? config.normalColor : config.darkerColor
-//            height: model["TModel_expend"] === true ? 30 : 0
+            height: model["TModel_expend"] === true ? 30 : 0
             visible: height > 0
-            property var expend: model["TModel_expend"]
-            onExpendChanged: {
-                console.log(model.name, expend)
-            }
-            Component.onCompleted: {
-                height = Qt.binding(function() { return model["TModel_expend"] === true ? 30 : 0 })
-            }
-            Text {
+            TextInput {
+                id: nameEdit
                 anchors.verticalCenter: parent.verticalCenter
                 x: root.basePadding + model["TModel_depth"] * root.subPadding
                 text: model.name
+                readOnly: focus
+
+            }
+
+            Image {
+                id: controlIcon
+                anchors {
+                    verticalCenter: parent.verticalCenter
+                    right: parent.right
+                    rightMargin: 20
+                }
+                visible: model["TModel_hasChildren"]
+                source: model["TModel_childrenExpend"] ? "qrc:/img/collapse.png" : "qrc:/img/expand.png"
             }
             MouseArea {
                 id: area
@@ -44,22 +54,17 @@ Item {
                         }
                     }
                 }
+                onDoubleClicked: {
+
+                    let p = mapToItem(nameEdit, mouseX, mouseY)
+                    nameEdit.focus = true
+                    nameEdit.moveCursorSelection(nameEdit.positionAt(p.x, p.y))
+                }
             }
             HoverHandler {
                 id: hoverHander
             }
-            Image {
-                id: controlIcon
-                anchors {
-                    verticalCenter: parent.verticalCenter
-                    right: parent.right
-                    rightMargin: 20
-                }
-                visible: model["TModel_hasChildren"]
-                source: model["TModel_childrenExpend"] ? "qrc:/img/collapse.png" : "qrc:/img/expand.png"
-            }
         }
-
     }
     TBorder {}
     //展开子级，不递归

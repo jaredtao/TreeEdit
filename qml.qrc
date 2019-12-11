@@ -1,11 +1,17 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>qml/TBorder.qml</file>
         <file>qml/treeData.js</file>
         <file>qml/TTreeModel.qml</file>
         <file>qml/TTreeView.qml</file>
         <file>img/collapse.png</file>
         <file>img/expand.png</file>
+        <file>qml/TPropView.qml</file>
+        <file>img/create.png</file>
+        <file>img/delete.png</file>
+        <file>img/rename.png</file>
+        <file>qml/BasicComponent/TBorder.qml</file>
+        <file>qml/BasicComponent/TIconButton.qml</file>
+        <file>qml/BasicComponent/TToolTip.qml</file>
     </qresource>
 </RCC>
