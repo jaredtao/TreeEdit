@@ -14,7 +14,7 @@ Item {
         currentIndex: -1
         delegate: Rectangle {
             width: listView.width
-            color: (listView.currentIndex === index || hoverHander.hovered) ? config.normalColor : config.darkerColor
+            color: (listView.currentIndex === index || area.hovered) ? config.normalColor : config.darkerColor
             height: model["TModel_expend"] === true ? 30 : 0
             visible: height > 0
             TextInput {
@@ -22,10 +22,32 @@ Item {
                 anchors.verticalCenter: parent.verticalCenter
                 x: root.basePadding + model["TModel_depth"] * root.subPadding
                 text: model.name
-                readOnly: focus
-
+                height: parent.height
+                width: parent.width * 0.8 - x
+                readOnly: true
+                selectByMouse: !readOnly
+                verticalAlignment: Text.AlignVCenter
+                onFocusChanged: {
+                    if (!focus) {
+                        readOnly = true
+                        deselect()
+                    }
+                }
             }
-
+            TTransArea {
+                id: area
+                height: parent.height
+                width: parent.width - controlIcon.x
+                hoverEnabled: true
+                acceptedButtons: Qt.LeftButton | Qt.RightButton
+                onPressed: {
+                    listView.currentIndex = index;
+                }
+                onTDoubleClicked: {
+                    nameEdit.forceActiveFocus()
+                    nameEdit.readOnly = false;
+                }
+            }
             Image {
                 id: controlIcon
                 anchors {
@@ -35,35 +57,25 @@ Item {
                 }
                 visible: model["TModel_hasChildren"]
                 source: model["TModel_childrenExpend"] ? "qrc:/img/collapse.png" : "qrc:/img/expand.png"
-            }
-            MouseArea {
-                id: area
-                anchors.fill: parent
-                acceptedButtons: Qt.LeftButton | Qt.RightButton
-                onClicked: {
-                    if (mouse.button === Qt.RightButton) {
+                MouseArea {
+                    anchors.fill: parent
+                    onClicked: {
+                        if (mouse.button === Qt.RightButton) {
 
-                    } else {
-                        listView.currentIndex = index;
-                        if (model["TModel_hasChildren"]) {
-                            if( true === model["TModel_childrenExpend"]) {
-                                collapse(index)
-                            } else {
-                                expand(index)
+                        } else {
+
+                            if (model["TModel_hasChildren"]) {
+                                if( true === model["TModel_childrenExpend"]) {
+                                    collapse(index)
+                                } else {
+                                    expand(index)
+                                }
                             }
                         }
                     }
                 }
-                onDoubleClicked: {
+            }
 
-                    let p = mapToItem(nameEdit, mouseX, mouseY)
-                    nameEdit.focus = true
-                    nameEdit.moveCursorSelection(nameEdit.positionAt(p.x, p.y))
-                }
-            }
-            HoverHandler {
-                id: hoverHander
-            }
         }
     }
     TBorder {}

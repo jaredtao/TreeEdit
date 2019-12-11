@@ -13,5 +13,6 @@
         <file>qml/BasicComponent/TBorder.qml</file>
         <file>qml/BasicComponent/TIconButton.qml</file>
         <file>qml/BasicComponent/TToolTip.qml</file>
+        <file>qml/BasicComponent/TTransArea.qml</file>
     </qresource>
 </RCC>

@@ -9,10 +9,6 @@
 | ![win-badge]  | ![ubuntu-badge]      | ![macos-badge] |![android-badge]   |![ios-badge]   |
 
 
-|[License][license-link]| [Release][release-link]|[Download][download-link]|[Issues][issues-link]|[Wiki][wiki-links]|
-|-----------------|-----------------|-----------------|-----------------|-----------------|
-|![license-badge] |![release-badge] | ![download-badge]|![issues-badge]|![wiki-badge]|
-
 [win-link]: https://github.com/JaredTao/TreeEdit/actions?query=workflow%3AWindows "WindowsAction"
 [win-badge]: https://github.com/JaredTao/TreeEdit/workflows/Windows/badge.svg  "Windows"
 

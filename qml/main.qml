@@ -33,6 +33,21 @@ ApplicationWindow {
             }
         }
     }
+    Column {
+
+        x: 400
+        y: 30
+        TextField {
+            id: iii
+            selectByMouse: true
+        }
+
+        Button {
+            onClicked: {
+            iii.readOnly = !iii.readOnly
+            }
+        }
+    }
     TTreeModel {
         id: tModel
         dataSource: TreeData.data
