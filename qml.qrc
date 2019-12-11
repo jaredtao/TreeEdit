@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qml/main.qml</file>
+        <file>qml/TBorder.qml</file>
+        <file>qml/treeData.js</file>
+        <file>qml/TTreeModel.qml</file>
+        <file>qml/TTreeView.qml</file>
+        <file>img/collapse.png</file>
+        <file>img/expand.png</file>
+    </qresource>
+</RCC>
