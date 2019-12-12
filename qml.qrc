@@ -14,5 +14,6 @@
         <file>qml/BasicComponent/TIconButton.qml</file>
         <file>qml/BasicComponent/TToolTip.qml</file>
         <file>qml/BasicComponent/TTransArea.qml</file>
+        <file>qml/BasicComponent/TTextInput.qml</file>
     </qresource>
 </RCC>

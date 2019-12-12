@@ -6,32 +6,35 @@ Item {
     property alias model: listView.model
     property int basePadding: 4
     property int subPadding: 16
+    property alias currentIndex: listView.currentIndex
     clip: true
 
+    signal collapse(int index);
+    signal expand(int index);
     ListView {
         id: listView
         anchors.fill: parent
         currentIndex: -1
         delegate: Rectangle {
+            id: delegateRect
             width: listView.width
             color: (listView.currentIndex === index || area.hovered) ? config.normalColor : config.darkerColor
             height: model["TModel_expend"] === true ? 30 : 0
             visible: height > 0
-            TextInput {
+
+            property alias editable: nameEdit.editable
+            property alias editItem: nameEdit
+            TTextInput {
                 id: nameEdit
                 anchors.verticalCenter: parent.verticalCenter
                 x: root.basePadding + model["TModel_depth"] * root.subPadding
                 text: model.name
                 height: parent.height
                 width: parent.width * 0.8 - x
-                readOnly: true
-                selectByMouse: !readOnly
-                verticalAlignment: Text.AlignVCenter
-                onFocusChanged: {
-                    if (!focus) {
-                        readOnly = true
-                        deselect()
-                    }
+                editable: false
+                onTEditFinished: {
+                    console.log("onTEditFinished", displayText)
+                    model.name = displayText
                 }
             }
             TTransArea {
@@ -44,8 +47,9 @@ Item {
                     listView.currentIndex = index;
                 }
                 onTDoubleClicked: {
+                    delegateRect.editable = true;
                     nameEdit.forceActiveFocus()
-                    nameEdit.readOnly = false;
+                    nameEdit.ensureVisible(0)
                 }
             }
             Image {
@@ -75,39 +79,13 @@ Item {
                     }
                 }
             }
-
         }
     }
     TBorder {}
-    //展开子级，不递归
-    function expand(index) {
-        let parentObj = model.get(index)
-        let depth = parentObj["TModel_depth"]
 
-        for (let i = index + 1; i < model.count; i++) {
-            let obj = model.get(i);
-            if (obj["TModel_depth"] <= depth) {
-                break;
-            } else if (obj["TModel_depth"] > depth + 1) {
-                continue;
-            }
-            model.setProperty(i, "TModel_expend", true)
+    function rename(index) {
+        if (listView.currentItem) {
+            listView.currentItem.editable = !listView.currentItem.editable
         }
-        model.setProperty(index, "TModel_childrenExpend", true)
-    }
-    //折叠子级，递归
-    function collapse(index) {
-        let parentObj = model.get(index)
-        let depth = parentObj["TModel_depth"]
-
-        for (let i = index + 1; i < model.count; i++) {
-            let obj = model.get(i);
-            if (obj["TModel_depth"] <= depth) {
-                break;
-            }
-            model.setProperty(i, "TModel_expend", false)
-            model.setProperty(i, "TModel_childrenExpend", false)
-        }
-        model.setProperty(index, "TModel_childrenExpend", false)
     }
 }

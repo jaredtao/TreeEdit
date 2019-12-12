@@ -33,21 +33,29 @@ ApplicationWindow {
             }
         }
     }
-    Column {
-
-        x: 400
-        y: 30
-        TextField {
-            id: iii
-            selectByMouse: true
-        }
-
-        Button {
-            onClicked: {
-            iii.readOnly = !iii.readOnly
-            }
-        }
-    }
+//    Column {
+//        x: 400
+//        y: 30
+//        TextField {
+//            id: iii
+//            selectByMouse: true
+//            onFocusChanged: {
+//                if (!focus) {
+//                    readOnly = true
+//                }
+//            }
+//        }
+//        Button {
+//            text: "bbb"
+//            onClicked: {
+//                iii.readOnly = !iii.readOnly
+//                if (iii.readOnly === false) {
+//                    iii.forceActiveFocus()
+//                    iii.ensureVisible(0)
+//                }
+//            }
+//        }
+//    }
     TTreeModel {
         id: tModel
         dataSource: TreeData.data
@@ -95,7 +103,7 @@ ApplicationWindow {
                     normalColor: treeHeader.color
                     tipText: "重命名"
                     onClicked: {
-
+                        treeView.rename(treeView.currentIndex)
                     }
                 }
             }
@@ -116,6 +124,12 @@ ApplicationWindow {
             bottom: parent.bottom
         }
         model: tModel.model
+        onExpand: {
+            tModel.expand(index)
+        }
+        onCollapse: {
+            tModel.collapse(index)
+        }
     }
     TPropView {
         id: propView
