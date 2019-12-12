@@ -11,7 +11,7 @@ Item {
     readonly property string __childrenKey: "TModel_children"
 
     property string recursionKey: "subType"
-    readonly property var filterKeyds: [__depthKey,__expendKey,__childrenExpendKey,__hasChildendKey, recursionKey, __parentKey, __childrenKey]
+    readonly property var filterKeyds: [__depthKey,__expendKey,__childrenExpendKey,__hasChildendKey, __parentKey, __childrenKey]
     property var dataSource: []
     onDataSourceChanged: {
         init()
@@ -19,6 +19,7 @@ Item {
     property alias model: listModel
     property alias count: listModel.count
     property var __objList: []
+    property var __jsonArr: []
     ListModel {
         id: listModel
     }
@@ -40,6 +41,7 @@ Item {
                 let rec = obj[recursionKey];
                 obj[__hasChildendKey] = true;
                 obj[__childrenExpendKey] = true;
+                delete obj[recursionKey];
                 model.append(obj);
                 gen(depth + 1, rec);
                 continue;
@@ -210,7 +212,6 @@ Item {
     }
     //jsonbject 或者jsonArray转化为字符串
     function __convertToString(json) {
-
         return JSON.stringify(json
                               , (k, v)=>{
                                   if (filterKeyds.indexOf(k) >=0) {
@@ -222,25 +223,18 @@ Item {
     //获取json字符串。
     function getJson() {
         //结果数组
-        let jsonArr = [];
+        __jsonArr = [];
         //全部obj列表
         __objList = [];
         //记录全部obj
         let i, j = 0;
         for (i = 0; i < model.count; i++) {
             let obj = model.get(i);
-            Object.defineProperties(obj, {"TModel_parent": {
-                                            value:-1,
-                                            writable: true,
-                                            enumerable: true,
-                                            configurable: true}
-                                        , "TModel_children": {
-                                            value:[],
-                                            writable: true,
-                                            enumerable: true,
-                                            configurable: true
-                                        }});
-            __objList.push(obj);
+            let newObj = {};
+            newObj = Object.assign(newObj, obj)
+            newObj [__parentKey] = -1;
+            newObj [__childrenKey] = [];
+            __objList.push(newObj);
         }
         //找parent和children
         for (i = 0; i < model.count; i++) {
@@ -265,29 +259,28 @@ Item {
             __objList[i][__childrenKey] = __childrenList;
             if(depth === 0) {
                 //只记录顶层对象。
-                jsonArr.push(__objList[i]);
+                __jsonArr.push(__objList[i]);
             }
         }
-        for (i = 0; i < jsonArr.length; i++) {
-            let obj = jsonArr[i];
-            let childrenJson = __getChildrenJson(obj);
+        for (i = 0; i < __jsonArr.length; i++) {
+            let childrenJson = __getChildrenJson(i);
             if (childrenJson.length > 0)
             {
-                jsonArr[i][recursionKey] =childrenJson;
+                __jsonArr[i][recursionKey] = childrenJson;
             }
         }
-        return __convertToString(jsonArr);
+        return __convertToString(__jsonArr);
     }
-    function __getChildrenJson(targetObj) {
+    function __getChildrenJson(jsonArrayIndex) {
         let ans = [];
-        if (!targetObj) {
+        if (jsonArrayIndex < 0 || jsonArrayIndex >= __jsonArr.length) {
             return ans;
         }
-        console.log("targetObj[__childrenKey]", targetObj[__childrenKey])
+        let targetObj = __jsonArr[jsonArrayIndex];
         for (let i = 0; i < targetObj[__childrenKey].length; i++) {
             let childIndex = targetObj[__childrenKey][i];
             let childObj = __objList[childIndex];
-            let childrenJson = __getChildrenJson(childObj);
+            let childrenJson = __getChildrenJson(childIndex);
             if (childrenJson.length > 0)
             {
                 childObj[recursionKey] = childrenJson
