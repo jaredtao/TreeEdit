@@ -85,7 +85,7 @@ ApplicationWindow {
                     normalColor: treeHeader.color
                     tipText: "创建"
                     onClicked: {
-
+                        tModel.add(treeView.currentIndex, {"name": "新建项"})
                     }
                 }
                 TIconButton {
@@ -94,7 +94,7 @@ ApplicationWindow {
                     normalColor: treeHeader.color
                     tipText: "删除"
                     onClicked: {
-
+                        tModel.remove(treeView.currentIndex)
                     }
                 }
                 TIconButton {

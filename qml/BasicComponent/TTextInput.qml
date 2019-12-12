@@ -18,7 +18,7 @@ TextInput {
     verticalAlignment: Text.AlignVCenter
 
     onFocusChanged: {
-        if (!focus) {
+        if (!focus && editable) {
             tEditFinished()
             editable = false
             deselect()
