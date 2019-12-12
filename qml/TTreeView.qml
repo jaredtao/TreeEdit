@@ -64,16 +64,11 @@ Item {
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (mouse.button === Qt.RightButton) {
-
-                        } else {
-
-                            if (model["TModel_hasChildren"]) {
-                                if( true === model["TModel_childrenExpend"]) {
-                                    collapse(index)
-                                } else {
-                                    expand(index)
-                                }
+                        if (model["TModel_hasChildren"]) {
+                            if( true === model["TModel_childrenExpend"]) {
+                                collapse(index)
+                            } else {
+                                expand(index)
                             }
                         }
                     }
@@ -87,5 +82,8 @@ Item {
         if (listView.currentItem) {
             listView.currentItem.editable = !listView.currentItem.editable
         }
+    }
+    function positionTo(index) {
+        listView.positionViewAtIndex(index, ListView.Beginning)
     }
 }

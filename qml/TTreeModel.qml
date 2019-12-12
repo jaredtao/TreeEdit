@@ -21,7 +21,7 @@ Item {
     }
 
     function init() {
-        listModel.clear()
+        model.clear()
         gen(0, dataSource)
     }
     //生成model。附加一些内部数据。
@@ -36,11 +36,11 @@ Item {
             if (recursionKey && recursionKey in obj) {
                 obj[__hasChildendKey] = true;
                 obj[__childrenExpendKey] = true;
-                listModel.append(obj);
+                model.append(obj);
                 gen(depth + 1, obj[recursionKey]);
                 continue;
             }
-            listModel.append(obj);
+            model.append(obj);
         }
     }
     //展开子级。只展开一级,不递归
@@ -73,6 +73,43 @@ Item {
             model.setProperty(i, __childrenExpendKey, false)
         }
         model.setProperty(index, __childrenExpendKey, false)
+    }
+    //展开到指定项。递归
+    function expandTo(index) {
+        let parentObj = model.get(index)
+        let depth = parentObj[__depthKey]
+        let parentDepth = depth - 1;
+        let parentList = []
+        for (let i = index - 1; i >=0 && parentDepth >= 0; i--) {
+            let obj = model.get(i);
+            if (obj[__depthKey] === parentDepth) {
+                parentList.push(i);
+                parentDepth--;
+            }
+        }
+        for (let j = 0; j < parentList.length; j++) {
+            expand(parentList[j])
+        }
+    }
+    function expandAll() {
+        for (let i = 0; i < model.count; i++) {
+            let obj = model.get(i)
+            if (obj[__hasChildendKey]) {
+                model.setProperty(i, __childrenExpendKey, true)
+            }
+            model.setProperty(i, __expendKey, true)
+        }
+    }
+    function collapseAll() {
+        for (let i = 0; i < model.count; i++) {
+            let obj = model.get(i)
+            if (obj[__hasChildendKey]) {
+                model.setProperty(i, __childrenExpendKey, false)
+            }
+            if (obj[__depthKey] > 0) {
+                model.setProperty(i, __expendKey, false)
+            }
+        }
     }
     //添加。没有子级，刷新父级。返回新项index
     function add(index, obj) {
@@ -134,5 +171,17 @@ Item {
             }
         }
         model.setProperty(index, __hasChildendKey, childrenCount > 0 ? true : false)
+    }
+    //搜索。返回命中项index列表
+    function search(key, value) {
+        const lowValue = String(value).toLowerCase()
+        let ans = []
+        for (let i = 0; i < model.count; i++) {
+            let obj = model.get(i);
+            if (String(obj[key]).toLowerCase().indexOf(lowValue) >= 0) {
+                ans.push(i)
+            }
+        }
+        return ans;
     }
 }

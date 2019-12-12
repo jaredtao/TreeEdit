@@ -1,5 +1,5 @@
 import QtQuick 2.0
-
+//边框。不用透明色。
 Item {
     anchors.fill: parent
     property int borderWidth: 1

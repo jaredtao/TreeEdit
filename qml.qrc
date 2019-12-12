@@ -15,5 +15,8 @@
         <file>qml/BasicComponent/TToolTip.qml</file>
         <file>qml/BasicComponent/TTransArea.qml</file>
         <file>qml/BasicComponent/TTextInput.qml</file>
+        <file>qml/TSearchInput.qml</file>
+        <file>img/down.png</file>
+        <file>img/up.png</file>
     </qresource>
 </RCC>

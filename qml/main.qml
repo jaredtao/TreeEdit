@@ -33,29 +33,6 @@ ApplicationWindow {
             }
         }
     }
-//    Column {
-//        x: 400
-//        y: 30
-//        TextField {
-//            id: iii
-//            selectByMouse: true
-//            onFocusChanged: {
-//                if (!focus) {
-//                    readOnly = true
-//                }
-//            }
-//        }
-//        Button {
-//            text: "bbb"
-//            onClicked: {
-//                iii.readOnly = !iii.readOnly
-//                if (iii.readOnly === false) {
-//                    iii.forceActiveFocus()
-//                    iii.ensureVisible(0)
-//                }
-//            }
-//        }
-//    }
     TTreeModel {
         id: tModel
         dataSource: TreeData.data
@@ -106,14 +83,64 @@ ApplicationWindow {
                         treeView.rename(treeView.currentIndex)
                     }
                 }
+                TIconButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    imageUrl: "qrc:/img/expand.png"
+                    normalColor: treeHeader.color
+                    tipText: "全部展开"
+                    onClicked: {
+                        tModel.expandAll()
+                    }
+                }
+                TIconButton {
+                    anchors.verticalCenter: parent.verticalCenter
+                    imageUrl: "qrc:/img/collapse.png"
+                    normalColor: treeHeader.color
+                    tipText: "全部折叠"
+                    onClicked: {
+                        tModel.collapseAll()
+                    }
+                }
             }
         }
 
-        TextField {
+        TSearchInput {
             y: 32
             width: parent.width
             height: 34
-            placeholderText: qsTr("请输入搜索内容")
+            property var searchHitList: []
+            count: searchHitList.length
+            onTextChanged: {
+                if (length > 0) {
+                    searchHitList = tModel.search("name", text)
+                    count = searchHitList.length
+                    current = 0
+                    updatePos()
+                } else {
+                    searchHitList = []
+                    count = 0
+                    current = 0
+                }
+            }
+            onLastClicked: {
+                if (count > 0) {
+                    current = (count + current - 1) % count
+                    updatePos()
+                }
+            }
+            onNextClicked: {
+                if (count > 0) {
+                    current = (current + 1) % count
+                    updatePos()
+                }
+            }
+            function updatePos() {
+                if (current >= 0 || current < count) {
+                    tModel.expandTo(searchHitList[current])
+                    treeView.currentIndex = searchHitList[current]
+                    treeView.positionTo(searchHitList[current])
+                }
+            }
         }
     }
     TTreeView {
