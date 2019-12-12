@@ -91,6 +91,7 @@ Item {
             expand(parentList[j])
         }
     }
+    //展开全部
     function expandAll() {
         for (let i = 0; i < model.count; i++) {
             let obj = model.get(i)
@@ -100,6 +101,7 @@ Item {
             model.setProperty(i, __expendKey, true)
         }
     }
+    //折叠全部
     function collapseAll() {
         for (let i = 0; i < model.count; i++) {
             let obj = model.get(i)
