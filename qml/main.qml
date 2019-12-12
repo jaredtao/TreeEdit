@@ -1,8 +1,8 @@
 import QtQuick 2.12
 import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
+import Tools 1.0
 import "./BasicComponent"
-import "treeData.js" as TreeData
 ApplicationWindow {
     id: rootWindow
     visible: true
@@ -18,12 +18,33 @@ ApplicationWindow {
         readonly property color darkerColor: Qt.darker(mainColor)
         readonly property color constrastColor: "#51BDE8"
     }
+    TDialog {
+        id: fileDialog
+    }
+    TMessageBox {
+        id: messageBox
+    }
     color: config.mainColor
     menuBar: MenuBar {
         Menu {
             title: "&File"
             Action {
                 text: "Open"
+                onTriggered: {
+                    fileDialog.openFile("选择一个Json文件", ["Json files (*.json)"], function (fileUrl) {
+                        let path = Tools.toLocalFile(fileUrl);
+                        let data = Tools.readFile(path)
+                        if (data.length <= 0) {
+                            messageBox.showMessage("提示", "文件为空")
+                        }
+                        try {
+                            let arr = JSON.parse(data)
+                            tModel.dataSource = arr;
+                        } catch(e) {
+                            messageBox.showMessage("错误", "解析出错:" + e,)
+                        }
+                    });
+                }
             }
             Action {
                 text: "Save"
@@ -38,7 +59,6 @@ ApplicationWindow {
     }
     TTreeModel {
         id: tModel
-        dataSource: TreeData.data
     }
     Rectangle {
         id: treeHeader

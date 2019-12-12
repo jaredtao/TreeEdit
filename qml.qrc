@@ -1,7 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>qml/treeData.js</file>
         <file>qml/TTreeModel.qml</file>
         <file>qml/TTreeView.qml</file>
         <file>img/collapse.png</file>
@@ -18,5 +17,8 @@
         <file>qml/TSearchInput.qml</file>
         <file>img/down.png</file>
         <file>img/up.png</file>
+        <file>qml/BasicComponent/TDialog.qml</file>
+        <file>qml/BasicComponent/TPopup.qml</file>
+        <file>qml/TMessageBox.qml</file>
     </qresource>
 </RCC>
