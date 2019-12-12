@@ -263,7 +263,7 @@ Item {
             }
         }
         for (i = 0; i < __jsonArr.length; i++) {
-            let childrenJson = __getChildrenJson(i);
+            let childrenJson = __getChildrenJson(__jsonArr[i][__childrenKey]);
             if (childrenJson.length > 0)
             {
                 __jsonArr[i][recursionKey] = childrenJson;
@@ -271,16 +271,12 @@ Item {
         }
         return __convertToString(__jsonArr);
     }
-    function __getChildrenJson(jsonArrayIndex) {
+    function __getChildrenJson(childrenIndexList) {
         let ans = [];
-        if (jsonArrayIndex < 0 || jsonArrayIndex >= __jsonArr.length) {
-            return ans;
-        }
-        let targetObj = __jsonArr[jsonArrayIndex];
-        for (let i = 0; i < targetObj[__childrenKey].length; i++) {
-            let childIndex = targetObj[__childrenKey][i];
+        for (let i = 0; i < childrenIndexList.length; i++) {
+            let childIndex = childrenIndexList[i];
             let childObj = __objList[childIndex];
-            let childrenJson = __getChildrenJson(childIndex);
+            let childrenJson = __getChildrenJson(childObj[__childrenKey]);
             if (childrenJson.length > 0)
             {
                 childObj[recursionKey] = childrenJson
@@ -289,4 +285,22 @@ Item {
         }
         return ans;
     }
+//    function __getChildrenJson(childrenIndexList) {
+//        let ans = [];
+//        if (jsonArrayIndex < 0 || jsonArrayIndex >= __jsonArr.length) {
+//            return ans;
+//        }
+//        let targetObj = __jsonArr[jsonArrayIndex];
+//        for (let i = 0; i < targetObj[__childrenKey].length; i++) {
+//            let childIndex = targetObj[__childrenKey][i];
+//            let childObj = __objList[childIndex];
+//            let childrenJson = __getChildrenJson(childIndex);
+//            if (childrenJson.length > 0)
+//            {
+//                childObj[recursionKey] = childrenJson
+//            }
+//            ans.push(childObj);
+//        }
+//        return ans;
+//    }
 }
