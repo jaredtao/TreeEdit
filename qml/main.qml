@@ -140,7 +140,7 @@ ApplicationWindow {
                 }
             }
             function updatePos() {
-                if (current >= 0 || current < count) {
+                if (current >= 0 && current < count) {
                     tModel.expandTo(searchHitList[current])
                     treeView.currentIndex = searchHitList[current]
                     treeView.positionTo(searchHitList[current])
