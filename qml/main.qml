@@ -48,6 +48,21 @@ ApplicationWindow {
             }
             Action {
                 text: "Save"
+                onTriggered: {
+                    if (tModel.count <= 0) {
+                        messageBox.showMessage("提示", "数据为空")
+                        return;
+                    }
+                    fileDialog.createFile("选择一个Json文件", ["Json files (*.json)"], function (fileUrl) {
+                        let path = Tools.toLocalFile(fileUrl);
+                        let json = tModel.getJson()
+                        if (data.length <= 0) {
+                            messageBox.showMessage("提示", "数据为空");
+                            return;
+                        }
+                        Tools.writeFile(path, json);
+                    });
+                }
             }
             Action {
                 text: "Clear"
@@ -57,6 +72,7 @@ ApplicationWindow {
             }
         }
     }
+
     TTreeModel {
         id: tModel
     }
@@ -69,7 +85,7 @@ ApplicationWindow {
             width: parent.width
             height: 35
             Text {
-                text: qsTr("树")
+                text: String("树 (节点总数：%1)").arg(tModel.count)
                 anchors.verticalCenter: parent.verticalCenter
             }
             Row {
