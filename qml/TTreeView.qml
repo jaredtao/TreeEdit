@@ -44,7 +44,11 @@ Item {
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onPressed: {
-                    listView.currentIndex = index;
+                    if (listView.currentIndex === index) {
+                        listView.currentIndex = -1;
+                    } else {
+                        listView.currentIndex = index;
+                    }
                 }
                 onTDoubleClicked: {
                     delegateRect.editable = true;
@@ -84,6 +88,6 @@ Item {
         }
     }
     function positionTo(index) {
-        listView.positionViewAtIndex(index, ListView.Beginning)
+        listView.positionViewAtIndex(index, ListView.Center)
     }
 }

@@ -30,6 +30,9 @@ ApplicationWindow {
             }
             Action {
                 text: "Clear"
+                onTriggered: {
+                    tModel.dataSource = []
+                }
             }
         }
     }
@@ -62,7 +65,8 @@ ApplicationWindow {
                     normalColor: treeHeader.color
                     tipText: "创建"
                     onClicked: {
-                        tModel.add(treeView.currentIndex, {"name": "新建项"})
+                        treeView.currentIndex = tModel.add(treeView.currentIndex, {"name": "新建项"})
+                        treeView.positionTo(treeView.currentIndex)
                     }
                 }
                 TIconButton {
@@ -72,6 +76,7 @@ ApplicationWindow {
                     tipText: "删除"
                     onClicked: {
                         tModel.remove(treeView.currentIndex)
+                        treeView.currentIndex = -1
                     }
                 }
                 TIconButton {

@@ -113,6 +113,10 @@ Item {
     }
     //添加。没有子级，刷新父级。返回新项index
     function add(index, obj) {
+        if (index < 0 || index >= model.count) {
+            return __addWithoutParent(obj);
+        }
+
         let parentObj = model.get(index)
         let depth = parentObj[__depthKey]
         let i = index + 1;
@@ -122,13 +126,24 @@ Item {
                 break;
             }
         }
+
         obj[__depthKey] = depth + 1;
         obj[__expendKey] = true;
         obj[__childrenExpendKey] = false;
         obj[__hasChildendKey] = false;
         model.insert(i, obj);
-        innerUpdate(index);
+        __innerUpdate(index);
+        expandTo(i);
         return i;
+    }
+    //添加。没有父级。返回新项index
+    function __addWithoutParent(obj) {
+        obj[__depthKey] = 0;
+        obj[__expendKey] = true;
+        obj[__childrenExpendKey] = false;
+        obj[__hasChildendKey] = false;
+        model.append(obj);
+        return model.count - 1;
     }
     //删除。递归删除所有子级,刷新父级
     function remove(index) {
@@ -151,14 +166,17 @@ Item {
             for (i = index - 1; i >=0; i--) {
                 let obj = model.get(i);
                 if (obj[__depthKey] === depth - 1) {
-                    innerUpdate(i);
+                    __innerUpdate(i);
                     break;
                 }
             }
         }
     }
     //刷新内部数据。
-    function innerUpdate(index) {
+    function __innerUpdate(index) {
+        if (index < 0 || index >= model.count) {
+            return;
+        }
         let parentObj = model.get(index)
         let depth = parentObj[__depthKey]
         let childrenCount = 0;
