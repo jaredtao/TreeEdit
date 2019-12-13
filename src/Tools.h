@@ -105,14 +105,17 @@ namespace TaoCommon
                 return true;
             }
         }
-        Q_INVOKABLE static QString readFile(const QString &path) {
+        Q_INVOKABLE static QString readFile(const QString &path)
+        {
             QByteArray data;
-            if (TaoCommon::readFile(path, data)) {
-                return {data};
+            if (TaoCommon::readFile(path, data))
+            {
+                return { data };
             }
             return {};
         }
-        Q_INVOKABLE static void writeFile(const QString &path, const QString &content) {
+        Q_INVOKABLE static void writeFile(const QString &path, const QString &content)
+        {
             TaoCommon::writeFile(path, content.toUtf8());
         }
     };

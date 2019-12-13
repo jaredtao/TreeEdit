@@ -34,7 +34,7 @@ MouseArea {
 
     Timer {
         id: timer
-        interval: 200
+        interval: 160
         repeat: false
         triggeredOnStart: false
         running: false

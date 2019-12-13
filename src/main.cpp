@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+
 #include "Tools.h"
 
 int main(int argc, char *argv[])
@@ -17,11 +18,15 @@ int main(int argc, char *argv[])
     qmlRegisterSingletonType<Tools>("Tools", 1, 0, "Tools", tools_singletontype_provider);
 
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
-    QObject::connect(&engine, &QQmlApplicationEngine::objectCreated,
-        &app, [url](QObject *obj, const QUrl &objUrl) {
+    QObject::connect(
+        &engine,
+        &QQmlApplicationEngine::objectCreated,
+        &app,
+        [url](QObject *obj, const QUrl &objUrl) {
             if (!obj && url == objUrl)
                 QCoreApplication::exit(-1);
-        }, Qt::QueuedConnection);
+        },
+        Qt::QueuedConnection);
     engine.load(url);
 
     return app.exec();
