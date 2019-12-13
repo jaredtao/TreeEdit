@@ -90,17 +90,17 @@ namespace TaoCommon
         file.close();
         return true;
     }
-    static bool writeJsonFile(const QString &filePath, const QJsonDocument &doc)
+    static bool writeJsonFile(const QString &filePath, const QJsonDocument &doc, bool compact = true)
     {
-        return writeFile(filePath, doc.toJson());
+        return writeFile(filePath, doc.toJson(compact ? QJsonDocument::Compact : QJsonDocument::Indented));
     }
-    static bool writeJsonFile(const QString &filePath, const QJsonArray &jsonArray)
+    static bool writeJsonFile(const QString &filePath, const QJsonArray &jsonArray, bool compact = true)
     {
-        return writeJsonFile(filePath, QJsonDocument(jsonArray));
+        return writeJsonFile(filePath, QJsonDocument(jsonArray), compact);
     }
-    static bool writeJsonFile(const QString &filePath, const QJsonObject &jsonObj)
+    static bool writeJsonFile(const QString &filePath, const QJsonObject &jsonObj, bool compact = true)
     {
-        return writeJsonFile(filePath, QJsonDocument(jsonObj));
+        return writeJsonFile(filePath, QJsonDocument(jsonObj), compact);
     }
 
 } // namespace TaoCommon
