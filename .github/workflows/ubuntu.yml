@@ -1,14 +1,18 @@
 name: Ubuntu
 # Qt官方没有linux平台的x86包
-on: 
+on:
   push:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+      - '.clang-format'
+      - '.git*'
   pull_request:
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+      - '.clang-format'
+      - '.git*'
 jobs:
   build:
     name: Build

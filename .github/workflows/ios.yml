@@ -1,11 +1,17 @@
 name: IOS
-on: 
+on:
   push:
     paths-ignore:
       - 'README.md'
+      - 'LICENSE'
+      - '.clang-format'
+      - '.git*'
   pull_request:
     paths-ignore:
       - 'README.md'
+      - 'LICENSE'
+      - '.clang-format'
+      - '.git*'
 jobs:
   build:
     name: Build

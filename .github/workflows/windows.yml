@@ -1,17 +1,21 @@
 name: Windows
-on: 
+on:
   # push代码时触发workflow
   push:
     # 忽略README.md
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+      - '.clang-format'
+      - '.git*'
   # pull_request时触发workflow
   pull_request:
     # 忽略README.md
     paths-ignore:
       - 'README.md'
       - 'LICENSE'
+      - '.clang-format'
+      - '.git*'
 jobs:
   build:
     name: Build
@@ -25,6 +29,7 @@ jobs:
         # mingw用不了
         # qt_arch: [win64_msvc2017_64, win32_msvc2017, win32_mingw53,win32_mingw73]
         qt_arch: [win64_msvc2017_64, win32_msvc2017]
+        qt_spec: [win32-msvc,win32-clang-msvc]
         # 额外设置msvc_arch
         include:
           - qt_arch: win64_msvc2017_64
@@ -73,9 +78,10 @@ jobs:
         shell: cmd
         env:
           vc_arch: ${{ matrix.msvc_arch }}
+          spec: ${{ matrix.qt_spec }}
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          qmake
+          qmake -spec %spec%
           nmake
       # tag 打包
       - name: package
