@@ -22,6 +22,8 @@ Item {
     onCurrentIndexChanged: {
         if (currentIndex < 0) {
             currentData = null;
+        } else {
+            currentData = sourceModel.data(currentIndex);
         }
     }
     clip: true
@@ -37,6 +39,7 @@ Item {
             width: listView.width
             color: (listView.currentIndex === index || area.hovered) ? config.normalColor : config.darkerColor
             height: model.display[__expendKey] === true ? 30 : 0
+            Behavior on height { NumberAnimation { duration: 200}}
             visible: height > 0
             property alias editable: nameEdit.editable
             property alias editItem: nameEdit
@@ -60,12 +63,11 @@ Item {
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onPressed: {
-//                    if (listView.currentIndex === index) {
-//                        listView.currentIndex = -1;
-//                    } else {
+                    if (listView.currentIndex !== index) {
                         listView.currentIndex = index;
-                        currentData = model.display
-//                    }
+                    } else {
+                        listView.currentIndex = -1;
+                    }
                 }
                 onTDoubleClicked: {
                     delegateRect.editable = true;
@@ -105,6 +107,7 @@ Item {
         displaced : Transition {
             NumberAnimation  { properties: "x,y"; duration: 300; easing.type: Easing.OutQuad }
         }
+        ScrollIndicator.vertical: ScrollIndicator { }
     }
     TBorder {}
 

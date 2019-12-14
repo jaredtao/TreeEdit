@@ -38,7 +38,7 @@ void TaoJsonTreeModel::gen(int depth, const QJsonArray& dataArray)
         m_nodeList.append(obj);
     }
 }
-void TaoJsonTreeModel::saveToJson(const QString& jsonPath, bool compact) const
+bool TaoJsonTreeModel::saveToJson(const QString& jsonPath, bool compact) const
 {
     QJsonArray arr;
     int depth = 0;
@@ -56,7 +56,7 @@ void TaoJsonTreeModel::saveToJson(const QString& jsonPath, bool compact) const
             arr.push_back(node);
         }
     }
-    writeJsonFile(jsonPath, arr, compact);
+    return writeJsonFile(jsonPath, arr, compact);
 }
 
 void TaoJsonTreeModel::clear()

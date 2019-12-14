@@ -1,0 +1,13 @@
+[
+    {
+        "name": "comp1",
+        "id": 1,
+        "readonly": false,
+        "parameters": [1,2,3],
+        "parent": {"name":"parent", "value": 33},
+        "subType": [
+            {"name":"sub1", "value": 11},
+            {"name":"sub2", "value": 22}
+        ]
+    }
+]

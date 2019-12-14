@@ -21,7 +21,7 @@ public:
     //从json文件读入数据
     Q_INVOKABLE void loadFromJson(const QString& jsonPath, const QString& recursionKey = cRecursionKey);
     //导出到json文件
-    Q_INVOKABLE void saveToJson(const QString& jsonPath, bool compact = false) const;
+    Q_INVOKABLE bool saveToJson(const QString& jsonPath, bool compact = false) const;
     Q_INVOKABLE void clear();
     //设置指定节点的数值
     Q_INVOKABLE void setNodeValue(int index, const QString &key, const QVariant &value);
@@ -65,10 +65,13 @@ public:
 
     int count() const;
 
-
+    Q_INVOKABLE QVariant data(int idx, int role = Qt::DisplayRole) const
+    {
+        return Super::data(Super::index(idx), role);
+    }
 signals:
     void countChanged();
-
+    void showMessage(QString message) const;
 protected:
     void gen(int depth, const QJsonArray& dataArray);
     QJsonArray getChildren(int parentIndex, int parentDepth) const;

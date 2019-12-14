@@ -21,6 +21,12 @@ ApplicationWindow {
     TMessageBox {
         id: messageBox
     }
+    Connections {
+        target: tModel
+        onShowMessage:{
+            messageBox.showMessage("提示", message)
+        }
+    }
     color: config.mainColor
     menuBar: MenuBar {
         Menu {
@@ -80,12 +86,21 @@ ApplicationWindow {
             tModel.collapse(index)
         }
     }
-    TPropView {
-        id: propView
-        width: 300
+    TPropHeader {
+        id: propHearer
+        width: 160
+        height: 70
         anchors {
             right: parent.right
-            top: treeHeader.bottom
+        }
+    }
+    TPropView {
+        id: propView
+        width: propHearer.width
+        anchors {
+            right: parent.right
+            top: propHearer.bottom
+            topMargin: 1
             bottom: parent.bottom
         }
         dataSource: tView.currentData

@@ -21,5 +21,6 @@
         <file>qml/BizComponent/TTreeView.qml</file>
         <file>qml/BizComponent/TConfig.qml</file>
         <file>qml/BizComponent/TTreeHeader.qml</file>
+        <file>qml/BizComponent/TPropHeader.qml</file>
     </qresource>
 </RCC>
