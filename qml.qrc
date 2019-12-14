@@ -1,10 +1,8 @@
 <RCC>
     <qresource prefix="/">
         <file>qml/main.qml</file>
-        <file>qml/TTreeView.qml</file>
         <file>img/collapse.png</file>
         <file>img/expand.png</file>
-        <file>qml/TPropView.qml</file>
         <file>img/create.png</file>
         <file>img/delete.png</file>
         <file>img/rename.png</file>
@@ -13,11 +11,15 @@
         <file>qml/BasicComponent/TToolTip.qml</file>
         <file>qml/BasicComponent/TTransArea.qml</file>
         <file>qml/BasicComponent/TTextInput.qml</file>
-        <file>qml/TSearchInput.qml</file>
         <file>img/down.png</file>
         <file>img/up.png</file>
         <file>qml/BasicComponent/TDialog.qml</file>
         <file>qml/BasicComponent/TPopup.qml</file>
-        <file>qml/TMessageBox.qml</file>
+        <file>qml/BizComponent/TMessageBox.qml</file>
+        <file>qml/BizComponent/TPropView.qml</file>
+        <file>qml/BizComponent/TSearchInput.qml</file>
+        <file>qml/BizComponent/TTreeView.qml</file>
+        <file>qml/BizComponent/TConfig.qml</file>
+        <file>qml/BizComponent/TTreeHeader.qml</file>
     </qresource>
 </RCC>
