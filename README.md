@@ -24,7 +24,44 @@ model中增加额外数据，表示树结构的深度、父子关系等，view�
 
 ## 效果预览
 
-![](preview.png)
+### 软件界面
+
+![](preview/preview.png)
+
+### 导入
+
+![](preview/import.gif)
+
+### 搜索
+
+![](preview/find.gif)
+
+### 创建
+
+![](preview/create.gif)
+
+### 删除
+
+![](preview/delete.gif)
+
+### 重命名
+
+![](preview/rename.gif)
+
+### 折叠和展开
+
+![](preview/expo.gif)
+
+### 清空
+
+![](preview/clear.gif)
+
+### 导出
+
+![](preview/save.gif)
+
+
+
 
 ## Qt版本
 
