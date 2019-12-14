@@ -102,12 +102,87 @@ void TaoJsonTreeModel::setNodeValue(int index, const QString& key, const QVarian
 int TaoJsonTreeModel::addNode(int index, const QJsonObject& json)
 {
     //countChanged();
-    return 0;
+    if (index < 0 || index >= m_nodeList.size()) {
+        return addWithoutDepth(json);
+    }
+    int depth = m_nodeList.at(index).value(cDepthKey).toInt();
+    int i = index + 1;
+    for (; i < m_nodeList.size(); ++i) {
+        if (m_nodeList.at(i).value(cDepthKey).toInt() <= depth) {
+            break;
+        }
+    }
+    auto obj = QJsonObject(json);
+    obj[cDepthKey] = depth + 1;
+    obj[cExpendKey] = true;
+    obj[cChildrenExpendKey] = false;
+    obj[cHasChildendKey] = false;
+    beginInsertRows(QModelIndex(), i, i);
+    m_nodeList.insert(i, obj);
+    endInsertRows();
+    countChanged();
+    innerUpdate(index);
+    expandTo(i);
+    return i;
 }
 
+int TaoJsonTreeModel::addWithoutDepth(const QJsonObject& json)
+{
+    auto obj = QJsonObject(json);
+    obj[cDepthKey] = 0;
+    obj[cExpendKey] = true;
+    obj[cChildrenExpendKey] = false;
+    obj[cHasChildendKey] = false;
+    beginInsertRows(QModelIndex(), m_nodeList.count(), m_nodeList.count());
+    m_nodeList.append(obj);
+    endInsertRows();
+    countChanged();
+    return m_nodeList.count() - 1;
+}
+void TaoJsonTreeModel::innerUpdate(int index)
+{
+    if (index < 0 || index >= m_nodeList.size()) {
+        return;
+    }
+    int depth = m_nodeList.at(index).value(cDepthKey).toInt();
+    int childrenCount = 0;
+    for (int i = index + 1; i < m_nodeList.size(); ++i) {
+        int childDepth = m_nodeList.at(i).value(cDepthKey).toInt();
+        if (childDepth <= depth) {
+            break;
+        } else if (childDepth == depth + 1) {
+            childrenCount++;
+        }
+    }
+    setNodeValue(index, cHasChildendKey, childrenCount > 0);
+}
 void TaoJsonTreeModel::remove(int index)
 {
-    //countChanged();
+    if (index < 0 || index >= m_nodeList.size()) {
+        return;
+    }
+    int depth = m_nodeList.at(index).value(cDepthKey).toInt();
+    int i = index + 1;
+    for (; i < m_nodeList.size(); ++i) {
+        int childDepth = m_nodeList.at(i).value(cDepthKey).toInt();
+        if (childDepth <= depth) {
+            break;
+        }
+    }
+    beginRemoveRows({}, index, i - 1);
+    for (int j = 0; j < i - index; ++j) {
+        m_nodeList.removeAt(index);
+    }
+    endRemoveRows();
+    countChanged();
+    if (depth > 0) {
+        for (int j = index - 1; j >= 0; --j) {
+            if (depth - 1 == m_nodeList.at(j).value(cDepthKey).toInt()) {
+                innerUpdate(j);
+                break;
+            }
+        }
+    }
 }
 
 QList<int> TaoJsonTreeModel::search(const QString& key, const QString& value, Qt::CaseSensitivity cs) const

@@ -91,7 +91,7 @@ ApplicationWindow {
                     normalColor: treeHeader.color
                     tipText: "创建"
                     onClicked: {
-                        treeView.currentIndex = tModel.add(treeView.currentIndex, {"name": "新建项"})
+                        treeView.currentIndex = tModel.addNode(treeView.currentIndex, {"name": "新建项"})
                         treeView.positionTo(treeView.currentIndex)
                     }
                 }

@@ -72,7 +72,8 @@ signals:
 protected:
     void gen(int depth, const QJsonArray& dataArray);
     QJsonArray getChildren(int parentIndex, int parentDepth) const;
-
+    int addWithoutDepth(const QJsonObject &json);
+    void innerUpdate(int index);
 private:
     QString m_recursionKey = cRecursionKey;
 };
