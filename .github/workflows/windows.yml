@@ -80,6 +80,7 @@ jobs:
           vc_arch: ${{ matrix.msvc_arch }}
           spec: ${{ matrix.qt_spec }}
         run: |
+          set PATH=%PATH%;"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\Llvm\bin"
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
           qmake -spec %spec%
           nmake
@@ -88,7 +89,7 @@ jobs:
         if: startsWith(github.event.ref, 'refs/tags/')
         env:
           VCINSTALLDIR: 'C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC'
-          archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}
+          archiveName: ${{ matrix.qt_ver }}-${{ matrix.qt_target }}-${{ matrix.qt_arch }}-${{matrix.qt_spec}}
         shell: pwsh
         run: |
           # 创建文件夹
