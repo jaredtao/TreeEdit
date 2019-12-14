@@ -3,7 +3,15 @@ import QtQuick.Controls 2.12
 import "./BasicComponent"
 Item {
     id: root
-    property alias model: listView.model
+    readonly property string __depthKey: "TModel_depth"
+    readonly property string __expendKey: "TModel_expend"
+    readonly property string __childrenExpendKey: "TModel_childrenExpend"
+    readonly property string __hasChildendKey: "TModel_hasChildren"
+
+    readonly property string __parentKey: "TModel_parent"
+    readonly property string __childrenKey: "TModel_children"
+
+    property alias sourceModel: listView.model
     property int basePadding: 4
     property int subPadding: 16
     property alias currentIndex: listView.currentIndex
@@ -19,22 +27,21 @@ Item {
             id: delegateRect
             width: listView.width
             color: (listView.currentIndex === index || area.hovered) ? config.normalColor : config.darkerColor
-            height: model["TModel_expend"] === true ? 30 : 0
+            height: model.display[__expendKey] === true ? 30 : 0
             visible: height > 0
-
             property alias editable: nameEdit.editable
             property alias editItem: nameEdit
             TTextInput {
                 id: nameEdit
                 anchors.verticalCenter: parent.verticalCenter
-                x: root.basePadding + model["TModel_depth"] * root.subPadding
-                text: model.name
+                x: root.basePadding + model.display[__depthKey] * root.subPadding
+                text: model.display["name"]
                 height: parent.height
                 width: parent.width * 0.8 - x
                 editable: false
                 onTEditFinished: {
                     console.log("onTEditFinished", displayText)
-                    model.name = displayText
+                    sourceModel.setNodeValue(index, "name", displayText)
                 }
             }
             TTransArea {
@@ -44,11 +51,11 @@ Item {
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
                 onPressed: {
-                    if (listView.currentIndex === index) {
-                        listView.currentIndex = -1;
-                    } else {
+//                    if (listView.currentIndex === index) {
+//                        listView.currentIndex = -1;
+//                    } else {
                         listView.currentIndex = index;
-                    }
+//                    }
                 }
                 onTDoubleClicked: {
                     delegateRect.editable = true;
@@ -63,13 +70,13 @@ Item {
                     right: parent.right
                     rightMargin: 20
                 }
-                visible: model["TModel_hasChildren"]
-                source: model["TModel_childrenExpend"] ? "qrc:/img/collapse.png" : "qrc:/img/expand.png"
+                visible: model.display[__hasChildendKey]
+                source: model.display[__childrenExpendKey] ? "qrc:/img/collapse.png" : "qrc:/img/expand.png"
                 MouseArea {
                     anchors.fill: parent
                     onClicked: {
-                        if (model["TModel_hasChildren"]) {
-                            if( true === model["TModel_childrenExpend"]) {
+                        if (model.display[__hasChildendKey]) {
+                            if( true === model.display[__childrenExpendKey]) {
                                 collapse(index)
                             } else {
                                 expand(index)

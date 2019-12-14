@@ -3,6 +3,7 @@ import QtQuick.Window 2.12
 import QtQuick.Controls 2.12
 import Tools 1.0
 import "./BasicComponent"
+import TreeModel 1.0
 ApplicationWindow {
     id: rootWindow
     visible: true
@@ -33,16 +34,7 @@ ApplicationWindow {
                 onTriggered: {
                     fileDialog.openFile("选择一个Json文件", ["Json files (*.json)"], function (fileUrl) {
                         let path = Tools.toLocalFile(fileUrl);
-                        let data = Tools.readFile(path)
-                        if (data.length <= 0) {
-                            messageBox.showMessage("提示", "文件为空")
-                        }
-                        try {
-                            let arr = JSON.parse(data)
-                            tModel.dataSource = arr;
-                        } catch(e) {
-                            messageBox.showMessage("错误", "解析出错:" + e,)
-                        }
+                        tModel.loadFromJson(path);
                     });
                 }
             }
@@ -55,25 +47,23 @@ ApplicationWindow {
                     }
                     fileDialog.createFile("选择一个Json文件", ["Json files (*.json)"], function (fileUrl) {
                         let path = Tools.toLocalFile(fileUrl);
-                        let json = tModel.getJson()
-                        if (data.length <= 0) {
-                            messageBox.showMessage("提示", "数据为空");
-                            return;
-                        }
-                        Tools.writeFile(path, json);
+                        tModel.saveToJson(path);
                     });
                 }
             }
             Action {
                 text: "Clear"
                 onTriggered: {
-                    tModel.dataSource = []
+                    tModel.clear();
                 }
             }
         }
     }
 
-    TTreeModel {
+//    TTreeModel {
+//        id: tModel
+//    }
+    TreeModel {
         id: tModel
     }
     Rectangle {
@@ -191,7 +181,7 @@ ApplicationWindow {
             top: treeHeader.bottom
             bottom: parent.bottom
         }
-        model: tModel.model
+        sourceModel: tModel
         onExpand: {
             tModel.expand(index)
         }

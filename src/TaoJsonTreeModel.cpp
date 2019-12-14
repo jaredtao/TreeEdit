@@ -14,6 +14,7 @@ void TaoJsonTreeModel::loadFromJson(const QString& jsonPath, const QString& recu
     m_nodeList.clear();
     gen(0, arr);
     endResetModel();
+    countChanged();
 }
 void TaoJsonTreeModel::gen(int depth, const QJsonArray& dataArray)
 {
@@ -57,6 +58,14 @@ void TaoJsonTreeModel::saveToJson(const QString& jsonPath, bool compact) const
     }
     writeJsonFile(jsonPath, arr, compact);
 }
+
+void TaoJsonTreeModel::clear()
+{
+    beginResetModel();
+    m_nodeList.clear();
+    endResetModel();
+    countChanged();
+}
 QJsonArray TaoJsonTreeModel::getChildren(int parentIndex, int parentDepth) const
 {
     QJsonArray arr;
@@ -92,11 +101,13 @@ void TaoJsonTreeModel::setNodeValue(int index, const QString& key, const QVarian
 
 int TaoJsonTreeModel::addNode(int index, const QJsonObject& json)
 {
+    //countChanged();
     return 0;
 }
 
 void TaoJsonTreeModel::remove(int index)
 {
+    //countChanged();
 }
 
 QList<int> TaoJsonTreeModel::search(const QString& key, const QString& value, Qt::CaseSensitivity cs) const
@@ -189,6 +200,11 @@ void TaoJsonTreeModel::collapseAll()
             setNodeValue(i, cExpendKey, false);
         }
     }
+}
+
+int TaoJsonTreeModel::count() const
+{
+    return m_nodeList.size();
 }
 
 } // namespace TaoCommon

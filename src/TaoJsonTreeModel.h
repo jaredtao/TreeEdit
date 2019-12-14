@@ -14,6 +14,7 @@ const static QString cRecursionKey = QStringLiteral("subType");
 const static QStringList cFilterKeyList = { cDepthKey, cExpendKey, cChildrenExpendKey, cHasChildendKey, cParentKey, cChildrenKey };
 class TaoJsonTreeModel : public TaoListModel<QJsonObject> {
     Q_OBJECT
+    Q_PROPERTY(int count READ count NOTIFY countChanged)
 public:
     //声明父类
     using Super = TaoListModel<QJsonObject>;
@@ -21,6 +22,7 @@ public:
     Q_INVOKABLE void loadFromJson(const QString& jsonPath, const QString& recursionKey = cRecursionKey);
     //导出到json文件
     Q_INVOKABLE void saveToJson(const QString& jsonPath, bool compact = false) const;
+    Q_INVOKABLE void clear();
     //设置指定节点的数值
     Q_INVOKABLE void setNodeValue(int index, const QString &key, const QVariant &value);
     //在index添加子节点。刷新父级，返回新项index
@@ -59,6 +61,13 @@ public:
 
     //折叠全部
     Q_INVOKABLE void collapseAll();
+
+
+    int count() const;
+
+
+signals:
+    void countChanged();
 
 protected:
     void gen(int depth, const QJsonArray& dataArray);

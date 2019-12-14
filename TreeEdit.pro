@@ -15,12 +15,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 HEADERS += \
     src/TaoJsonTreeModel.h \
     src/TaoListModel.h \
+    src/TaoListModel.inl \
     src/Tools.h \
     src/FileReadWrite.h
 
 SOURCES += \
         src/TaoJsonTreeModel.cpp \
-        src/TaoListModel.cpp \
         src/main.cpp
 
 RESOURCES += qml.qrc

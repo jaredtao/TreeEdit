@@ -3,7 +3,7 @@
 #include <QQmlContext>
 
 #include "Tools.h"
-
+#include "TaoJsonTreeModel.h"
 int main(int argc, char *argv[])
 {
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
 
     using namespace TaoCommon;
     qmlRegisterSingletonType<Tools>("Tools", 1, 0, "Tools", tools_singletontype_provider);
-
+    qmlRegisterType<TaoJsonTreeModel>("TreeModel", 1, 0, "TreeModel");
     const QUrl url(QStringLiteral("qrc:/qml/main.qml"));
     QObject::connect(
         &engine,

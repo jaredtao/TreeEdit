@@ -56,6 +56,7 @@ Item {
         width: toolRow.x
         placeholderText: qsTr("请输入搜索内容")
         selectByMouse: true
+        color: "white"
         background: Item {
             width: root.width
             height: root.height

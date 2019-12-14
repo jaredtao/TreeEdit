@@ -1,4 +1,4 @@
-#include "TaoListModel.h"
+#pragma once
 namespace TaoCommon {
 template <typename T>
 TaoListModel<T>::TaoListModel(QObject* parent)
@@ -11,6 +11,14 @@ TaoListModel<T>::TaoListModel(const QList<T>& nodeList, QObject* parent)
     : Super(parent)
     , m_nodeList(nodeList)
 {
+}
+template <typename T>
+Qt::ItemFlags TaoListModel<T>::flags(const QModelIndex& index) const
+{
+    if (!index.isValid())
+        return Super::flags(index) | Qt::ItemIsDropEnabled;
+
+    return Super::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
 }
 
 template <typename T>
@@ -52,14 +60,7 @@ bool TaoListModel<T>::setData(const QModelIndex& index, const QVariant& value, i
     }
     return false;
 }
-template <typename T>
-Qt::ItemFlags TaoListModel<T>::flags(const QModelIndex& index) const
-{
-    if (!index.isValid())
-        return Super::flags(index) | Qt::ItemIsDropEnabled;
 
-    return Super::flags(index) | Qt::ItemIsEditable | Qt::ItemIsDragEnabled | Qt::ItemIsDropEnabled;
-}
 
 template <typename T>
 bool TaoListModel<T>::insertRows(int row, int count, const QModelIndex& parent)
