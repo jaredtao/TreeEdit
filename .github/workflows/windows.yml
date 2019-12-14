@@ -29,7 +29,6 @@ jobs:
         # mingw用不了
         # qt_arch: [win64_msvc2017_64, win32_msvc2017, win32_mingw53,win32_mingw73]
         qt_arch: [win64_msvc2017_64, win32_msvc2017]
-        qt_spec: [win32-msvc,win32-clang-msvc]
         # 额外设置msvc_arch
         include:
           - qt_arch: win64_msvc2017_64
@@ -78,11 +77,9 @@ jobs:
         shell: cmd
         env:
           vc_arch: ${{ matrix.msvc_arch }}
-          spec: ${{ matrix.qt_spec }}
         run: |
-          set PATH=%PATH%;"C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\Llvm\bin"
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvarsall.bat" %vc_arch%
-          qmake -spec %spec%
+          qmake
           nmake
       # tag 打包
       - name: package
