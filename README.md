@@ -20,6 +20,8 @@ View 使用qml中的 Controls2 ListView
 
 Model使用C++中的 QAbstractListModel子类
 
+model中增加额外数据，表示树结构的深度、父子关系等，view通过额外数据显示、处理。
+
 ## 效果预览
 
 ![](preview.png)
@@ -28,7 +30,7 @@ Model使用C++中的 QAbstractListModel子类
 
 5.12.x
 
-## CI
+## Build
 
 | [Windows][win-link]| [Ubuntu][ubuntu-link]|[MacOS][macos-link]|[Android][android-link]|[IOS][ios-link]|
 |---------------|---------------|-----------------|-----------------|----------------|
@@ -50,7 +52,7 @@ Model使用C++中的 QAbstractListModel子类
 [ios-link]: https://github.com/JaredTao/TreeEdit/actions?query=workflow%3AIOS "IOSAction"
 [ios-badge]: https://github.com/JaredTao/TreeEdit/workflows/IOS/badge.svg "IOS"
 
-## Reop
+## Release
 
 |[许可][license-link]|[已发布][release-link]|[下载][download-link]|下载次数|
 |:--:|:--:|:--:|:--:|

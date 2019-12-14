@@ -60,9 +60,6 @@ ApplicationWindow {
         }
     }
 
-//    TTreeModel {
-//        id: tModel
-//    }
     TreeModel {
         id: tModel
     }
