@@ -1,8 +1,6 @@
 # TreeEdit
 
-纯Qml实现的树结构编辑器。
-
-使用Controls2 中的 ListView 和 ListModel模拟实现。
+Qml实现的树结构编辑器。
 
 |功能|进度|
 |--|--|
@@ -16,22 +14,21 @@
 |导出|计划中|
 |节点属性编辑|计划中|
 
-## 更新(2019/12/13)
+## 原理
 
-ListModel嵌套的情况下，内部js object被转换成了ListModel，导入/导出有问题，不能正确拿到数据。
+View 使用qml中的 Controls2 ListView
 
-Qt5.14说修复了这个bug，但是运行的时候程序直接崩溃了。
-
-后续会把model改成C++的model，顺便支持一下大数据。
+Model使用C++中的 QAbstractListModel子类
 
 ## 效果预览
 
 ![](preview.png)
+
 ## Qt版本
 
 5.12.x
 
-## status
+## CI
 
 | [Windows][win-link]| [Ubuntu][ubuntu-link]|[MacOS][macos-link]|[Android][android-link]|[IOS][ios-link]|
 |---------------|---------------|-----------------|-----------------|----------------|
@@ -52,3 +49,18 @@ Qt5.14说修复了这个bug，但是运行的时候程序直接崩溃了。
 
 [ios-link]: https://github.com/JaredTao/TreeEdit/actions?query=workflow%3AIOS "IOSAction"
 [ios-badge]: https://github.com/JaredTao/TreeEdit/workflows/IOS/badge.svg "IOS"
+
+## Reop
+
+|[许可][license-link]||[已发布][release-link]|[下载][download-link]|下载次数|
+|:--:|:--:|:--:|:--:|
+|![license-badge]|![release-badge] |![download-badge]|![download-latest]|
+
+
+[license-link]: https://github.com/jaredtao/TreeEdit/blob/master/LICENSE "LICENSE"
+[license-badge]: https://img.shields.io/badge/license-MIT-blue.svg "MIT"
+[release-link]: https://github.com/jaredtao/TreeEdit/releases "Release status"
+[release-badge]: https://img.shields.io/github/release/jaredtao/TreeEdit.svg?style=flat-square "Release status"
+[download-link]: https://github.com/jaredtao/TreeEdit/releases/latest "Download status"
+[download-badge]: https://img.shields.io/github/downloads/jaredtao/TreeEdit/total.svg "Download status"
+[download-latest]: https://img.shields.io/github/downloads/jaredtao/TreeEdit/latest/total.svg "latest status"
