@@ -39,7 +39,6 @@ Item {
             width: listView.width
             color: (listView.currentIndex === index || area.hovered) ? config.normalColor : config.darkerColor
             height: model.display[__expendKey] === true ? 35 : 0
-//            Behavior on height { NumberAnimation { duration: 200}}
             visible: height > 0
             property alias editable: nameEdit.editable
             property alias editItem: nameEdit
@@ -52,7 +51,6 @@ Item {
                 width: parent.width * 0.8 - x
                 editable: false
                 onTEditFinished: {
-                    console.log("onTEditFinished", displayText)
                     sourceModel.setNodeValue(index, "name", displayText)
                 }
             }
