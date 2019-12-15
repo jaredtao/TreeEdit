@@ -35,8 +35,7 @@ Rectangle {
                 normalColor: treeHeader.color
                 tipText: "创建"
                 onClicked: {
-                    treeView.currentIndex = treeModel.addNode(treeView.currentIndex, {"name": "新建项"})
-                    treeView.positionTo(treeView.currentIndex)
+
                 }
             }
             TIconButton {
@@ -45,17 +44,6 @@ Rectangle {
                 normalColor: treeHeader.color
                 tipText: "删除"
                 onClicked: {
-                    treeModel.remove(treeView.currentIndex)
-                    treeView.currentIndex = -1
-                }
-            }
-            TIconButton {
-                anchors.verticalCenter: parent.verticalCenter
-                imageUrl: "qrc:/img/rename.png"
-                normalColor: treeHeader.color
-                tipText: "修改"
-                onClicked: {
-                    treeView.rename(treeView.currentIndex)
                 }
             }
         }
