@@ -1,1 +1,3 @@
-TEMPLATE = aux
+TEMPLATE = subdirs
+SUBDIRS += \
+    LoadBenchmark
