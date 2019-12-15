@@ -1,0 +1,14 @@
+#pragma once
+
+#include "Tools.h"
+#include "TaoJsonTreeModel.h"
+
+#include <QQmlContext>
+
+namespace TaoCommon {
+static void moduleRegister() {
+    qmlRegisterSingletonType<Tools>("Tools", 1, 0, "Tools", tools_singletontype_provider);
+    qmlRegisterType<TaoJsonTreeModel>("TreeModel", 1, 0, "TreeModel");
+}
+}
+

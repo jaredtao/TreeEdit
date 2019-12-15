@@ -1,6 +1,6 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-
+import "../BasicComponent"
 Dialog {
     id: root
 
@@ -19,11 +19,10 @@ Dialog {
         root.title = title
         root.msg = msg;
     }
-    Text {
+    TText {
         anchors.centerIn: parent
         text: root.msg
         width: parent.width
-        wrapMode: Text.WordWrap
     }
     onAccepted: {
         root.close()

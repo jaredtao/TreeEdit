@@ -9,7 +9,7 @@ Rectangle {
     Item {
         width: parent.width
         height: 35
-        Text {
+        TText {
             text: String("树 (节点总数：%1)").arg(treeModel.count)
             anchors.verticalCenter: parent.verticalCenter
         }

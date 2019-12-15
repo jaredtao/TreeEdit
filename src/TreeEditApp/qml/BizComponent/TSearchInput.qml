@@ -22,7 +22,7 @@ Item {
             anchors.verticalCenter: parent.verticalCenter
             color: "gray"
         }
-        Text {
+        TText {
             text: displayCurrent + " / " + count
             visible: length > 0
             anchors.verticalCenter: parent.verticalCenter
@@ -61,11 +61,8 @@ Item {
             width: root.width
             height: root.height
             TBorder {
-                borderColor: (hoverHandler.hovered || input.focus || lastBtn.containsMouse || nextBtn.containsMouse) ? "#0099cc" : "#b8b9ba"
+                borderColor: (input.hovered || input.focus || lastBtn.containsMouse || nextBtn.containsMouse) ? "#0099cc" : "#b8b9ba"
             }
-        }
-        HoverHandler {
-            id: hoverHandler
         }
     }
 }

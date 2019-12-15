@@ -1,6 +1,9 @@
 #include "TaoJsonTreeModel.h"
 #include "FileReadWrite.h"
 #include <QJsonArray>
+
+#include <QDebug>
+
 namespace TaoCommon {
 
 void TaoJsonTreeModel::loadFromJson(const QString& jsonPath, const QString& recursionKey)
