@@ -14,6 +14,9 @@ public:
     ~LoadTest();
 
     static void genJson(const QPoint& point);
+
+private:
+    void prepareData();
 private slots:
     void initTestCase();
     void cleanupTestCase();
@@ -54,6 +57,7 @@ void LoadTest::genJson(const QPoint& point)
 
 void LoadTest::initTestCase()
 {
+
     QList<QPoint> list;
     for (int i = 1; i <= nodeMax; i *= 10) {
         for (int j = 1; j <= depthMax; j *= 10) {
@@ -63,11 +67,7 @@ void LoadTest::initTestCase()
     auto result = QtConcurrent::map(list, &LoadTest::genJson);
     result.waitForFinished();
 }
-
-void LoadTest::cleanupTestCase()
-{
-}
-void LoadTest::test_load_data()
+void LoadTest::prepareData()
 {
     QTest::addColumn<int>("node");
     QTest::addColumn<int>("depth");
@@ -76,6 +76,13 @@ void LoadTest::test_load_data()
             QTest::newRow(QString("%1_%2").arg(i).arg(j).toStdString().c_str()) << i << j;
         }
     }
+}
+void LoadTest::cleanupTestCase()
+{
+}
+void LoadTest::test_load_data()
+{
+    prepareData();
 }
 void LoadTest::test_load()
 {
@@ -91,13 +98,7 @@ void LoadTest::test_load()
 
 void LoadTest::test_save_data()
 {
-    QTest::addColumn<int>("node");
-    QTest::addColumn<int>("depth");
-    for (int i = 1; i <= nodeMax; i *= 10) {
-        for (int j = 1; j <= depthMax; j *= 10) {
-            QTest::newRow(QString("%1_%2").arg(i).arg(j).toStdString().c_str()) << i << j;
-        }
-    }
+    prepareData();
 }
 void LoadTest::test_save()
 {
