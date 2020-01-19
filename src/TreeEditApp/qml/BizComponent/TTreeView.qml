@@ -60,6 +60,7 @@ Item {
                 width: parent.width - controlIcon.x
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton | Qt.RightButton
+                enabled: !delegateRect.editable
                 onPressed: {
                     if (listView.currentIndex !== index) {
                         listView.currentIndex = index;
