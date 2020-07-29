@@ -21,18 +21,13 @@ ApplicationWindow {
     TMessageBox {
         id: messageBox
     }
-    Connections {
-        target: tModel
-        onShowMessage:{
-            messageBox.showMessage("提示", message)
-        }
-    }
     color: config.mainColor
     menuBar: MenuBar {
         Menu {
-            title: "&File"
+            title: "File(&F)"
             Action {
                 text: "Open"
+                shortcut: StandardKey.Open
                 onTriggered: {
                     fileDialog.openFile("选择一个Json文件", ["Json files (*.json)"], function (fileUrl) {
                         let path = Tools.toLocalFile(fileUrl);
@@ -41,7 +36,8 @@ ApplicationWindow {
                 }
             }
             Action {
-                text: "Save"
+                text: "&Save"
+                shortcut: StandardKey.Save
                 onTriggered: {
                     if (tModel.count <= 0) {
                         messageBox.showMessage("提示", "数据为空")
@@ -54,19 +50,29 @@ ApplicationWindow {
                 }
             }
             Action {
-                text: "Clear"
+                text: "&Clear"
                 onTriggered: {
                     tModel.clear();
+                }
+            }
+            Action {
+                text: "Close(&F4)"
+                shortcut: StandardKey.Close
+                onTriggered: {
+                    Qt.quit()
                 }
             }
         }
     }
     TreeModel {
         id: tModel
+        onShowMessage:{
+            messageBox.showMessage("提示", message)
+        }
     }
     TTreeHeader {
         id: treeHeader
-        width: 300
+        width: 400
         height: 70
         treeModel: tModel
         treeView: tView
@@ -88,11 +94,11 @@ ApplicationWindow {
     }
     TPropHeader {
         id: propHeader
-        width: 300
         height: 70
         treeModel: tModel
         propView: propertiesView
         anchors {
+            left: tView.right
             right: parent.right
         }
     }

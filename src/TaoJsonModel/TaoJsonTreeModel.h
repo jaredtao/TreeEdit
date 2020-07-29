@@ -24,7 +24,7 @@ public:
     Q_INVOKABLE bool saveToJson(const QString& jsonPath, bool compact = false) const;
     Q_INVOKABLE void clear();
     //设置指定节点的数值
-    Q_INVOKABLE void setNodeValue(int index, const QString &key, const QVariant &value);
+    Q_INVOKABLE void setNodeValue(int index, const QString& key, const QVariant& value);
     //在index添加子节点。刷新父级，返回新项index
     Q_INVOKABLE int addNode(int index, const QJsonObject& json);
     Q_INVOKABLE int addNode(const QModelIndex& index, const QJsonObject& json)
@@ -62,7 +62,6 @@ public:
     //折叠全部
     Q_INVOKABLE void collapseAll();
 
-
     int count() const;
 
     Q_INVOKABLE QVariant data(int idx, int role = Qt::DisplayRole) const
@@ -72,11 +71,13 @@ public:
 signals:
     void countChanged();
     void showMessage(QString message) const;
+
 protected:
     void gen(int depth, const QJsonArray& dataArray);
     QJsonArray getChildren(int parentIndex, int parentDepth) const;
-    int addWithoutDepth(const QJsonObject &json);
+    int addWithoutDepth(const QJsonObject& json);
     void innerUpdate(int index);
+
 private:
     QString m_recursionKey = cRecursionKey;
 };

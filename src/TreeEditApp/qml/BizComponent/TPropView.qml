@@ -51,6 +51,7 @@ Rectangle {
                         text: modelData
                         color: config.constrastColor
                         width: parent.width
+                        backgroundColor: config.backgroundColor
                     }
                     TBorder {}
                 }
@@ -62,6 +63,8 @@ Rectangle {
                         text: typeof dataSource[modelData]
                         color: config.constrastColor
                         width: parent.width
+                        backgroundColor: config.backgroundColor
+
                     }
                     TBorder {}
                 }
@@ -100,7 +103,8 @@ Rectangle {
             text: compData
             height: parent.height
             width: parent.width
-
+            color: config.constrastColor
+            backgroundColor: config.backgroundColor
         }
     }
     Component {
@@ -109,6 +113,8 @@ Rectangle {
             property double compData
             text: compData
             validator: DoubleValidator {}
+            color: config.constrastColor
+            backgroundColor: config.backgroundColor
         }
     }
     Component {
@@ -128,7 +134,8 @@ Rectangle {
             text: JSON.stringify(compData)
             height: parent.height
             width: parent.width
-            selectByMouse: true
+            color: config.constrastColor
+            backgroundColor: config.backgroundColor
         }
     }
 }
