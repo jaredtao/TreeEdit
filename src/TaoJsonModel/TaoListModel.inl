@@ -84,7 +84,7 @@ bool TaoListModel<T>::removeRows(int row, int count, const QModelIndex& parent)
     }
     beginRemoveRows(QModelIndex(), row, row + count - 1);
     for (int i = 0; i < count; ++i) {
-        m_nodeList.insert(row, T {});
+        m_nodeList.removeAt(row);
     }
     endRemoveRows();
     return true;
